@@ -3,12 +3,13 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
 
 // Routes importing
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders')
 
-
+mongoose.connect('mongodb://ProjectManager:' + process.env.MONGO_ATLAS_PW +'@projetfinal-shard-00-00-rfh5r.mongodb.net:27017,projetfinal-shard-00-01-rfh5r.mongodb.net:27017,projetfinal-shard-00-02-rfh5r.mongodb.net:27017/test?ssl=true&replicaSet=ProjetFinal-shard-0&authSource=admin&retryWrites=true', { useNewUrlParser: true })
 app.use(morgan('dev')); //logger middleware
 app.use(bodyParser.urlencoded({extended : false})); // parse the url middleware in order to extract the payloads
 app.use(bodyParser.json()); //extract the request in json format
