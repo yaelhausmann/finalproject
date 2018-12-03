@@ -8,8 +8,13 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+    const order = {
+        productID : req.body.productID,
+        quantity : req.body.quantity
+    }
     res.status(201).json({ // code 201 for post request because it says that everthing was created succesfully
-        message: 'Order was created'
+        message: 'Order was created',
+        order : order
     });
 });
 
