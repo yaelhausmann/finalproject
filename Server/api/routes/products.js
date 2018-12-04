@@ -3,6 +3,10 @@ const router = express.Router();
 const Product = require('../models/products')
 const mongoose = require('mongoose') // import mongoose to create mongooseobject id
 
+//---------------------- GETTERS -------------------------------
+
+
+// Route for retreiving all the products
 router.get('/', (req, res, next) => {
     Product.find() //the method finc can also accept where clause
         .exec()
@@ -27,31 +31,11 @@ router.get('/', (req, res, next) => {
         )
 });
 
-router.post('/', (req, res, next) => {
-    const product = new Product({
-        _id: new mongoose.Types.ObjectId(),
-        name: req.body.name,
-        price: req.body.price
-    })
-    product
-        .save()
-        .then(result => {
-            console.log(result);
-            res.status(201).json({
-                message: 'Handling POST request to /products',
-                createdProduct: result
-            });
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
-            })
-        })
 
-});
 
-router.get('/:productId', (req, res, next) => {
+
+// find a product by id
+router.get('/id/:productId', (req, res, next) => {
     const id = req.params.productId //retrieve the product id from the requests arguments Express will give an argument of the same name that we write with semicolumn 
     Product.findById(id)
         .exec()
@@ -76,6 +60,66 @@ router.get('/:productId', (req, res, next) => {
 
 
 });
+
+// find all product of a given category
+
+router.get('/category/:category', (req, res, next) => {
+
+    
+    const category = req.params.category //retrieve the product id from the requests arguments Express will give an argument of the same name that we write with semicolumn 
+    console.log(category)
+    Product.find()
+    .where('category').equals(category)
+        .exec()
+        .then(doc => {
+            console.log("from database", doc);
+            if (doc) { //if there is an object with this id
+                res.status(200).json(doc);
+            } else {
+                res.status(404).json({
+                    message: 'No valid entry found for provided ID'
+                })
+            }
+
+
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+
+
+});
+
+
+
+router.post('/', (req, res, next) => {
+    const product = new Product({
+        _id: new mongoose.Types.ObjectId(),
+        name: req.body.name,
+        price: req.body.price,
+        category : req.body.category
+    })
+    product
+        .save()
+        .then(result => {
+            console.log(result);
+            res.status(201).json({
+                message: 'Handling POST request to /products',
+                createdProduct: result
+            });
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+
+});
+
 
 router.patch('/:productId', (req, res, next) => {
     const id = req.params.productId //retrieve the product id from the requests arguments Express will give an argument of the same name that we write with semicolumn 

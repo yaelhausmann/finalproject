@@ -9,7 +9,26 @@ const mongoose = require('mongoose')
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders')
 
-mongoose.connect('mongodb://ProjectManager:' + process.env.MONGO_ATLAS_PW +'@projetfinal-shard-00-00-rfh5r.mongodb.net:27017,projetfinal-shard-00-01-rfh5r.mongodb.net:27017,projetfinal-shard-00-02-rfh5r.mongodb.net:27017/test?ssl=true&replicaSet=ProjetFinal-shard-0&authSource=admin&retryWrites=true', { useNewUrlParser: true })
+const urlDB =  "mongodb://localhost:27017/"
+const DBname = "ProjetFinal"
+const mongoAtlasConn = 'mongodb://ProjectManager:' + process.env.MONGO_ATLAS_PW +'@projetfinal-shard-00-00-rfh5r.mongodb.net:27017,projetfinal-shard-00-01-rfh5r.mongodb.net:27017,projetfinal-shard-00-02-rfh5r.mongodb.net:27017/test?ssl=true&replicaSet=ProjetFinal-shard-0&authSource=admin&retryWrites=true'
+
+// MONGO DB :  REGUAR CONNECTION
+/*mongoose.connect(`${urlDB}${DBname}`, { useNewUrlParser:true}, (err)=>{
+    if (!err){
+        console.log('MongoDB connected...')
+    } else {
+        console.log('erro to connect to DB', JSON.stringify(err, undefined, 2))
+    }
+})*/
+// MONGO DB : USE ATLAS
+mongoose.connect(mongoAtlasConn, { useNewUrlParser: true }, (err)=>{
+    if (!err){
+        console.log('MongoDB connected...')
+    } else {
+        console.log('erro to connect to DB', JSON.stringify(err, undefined, 2))
+    }
+})
 app.use(morgan('dev')); //logger middleware
 app.use(bodyParser.urlencoded({extended : false})); // parse the url middleware in order to extract the payloads
 app.use(bodyParser.json()); //extract the request in json format
