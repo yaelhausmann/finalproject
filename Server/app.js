@@ -29,6 +29,7 @@ mongoose.connect(mongoAtlasConn, { useNewUrlParser: true }, (err)=>{
         console.log('erro to connect to DB', JSON.stringify(err, undefined, 2))
     }
 })
+mongoose.Promise = global.Promise //set the mongoose promise to the NodeJS promise in order to avoid deprecated error on mongoose Promise
 app.use(morgan('dev')); //logger middleware
 app.use(bodyParser.urlencoded({extended : false})); // parse the url middleware in order to extract the payloads
 app.use(bodyParser.json()); //extract the request in json format

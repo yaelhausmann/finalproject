@@ -9,11 +9,25 @@ const mongoose = require('mongoose') // import mongoose to create mongooseobject
 // Route for retreiving all the products
 router.get('/', (req, res, next) => {
     Product.find() //the method finc can also accept where clause
-        .exec()
+        .select('name price category')
+    .exec()
         .then(docs => {
-            console.log(docs);
+            const response = {
+                count : docs.length,
+                products : docs.map(doc =>{
+                    return {
+                        name : doc.name,
+                        price : doc.price,
+                        category : doc.category,
+                        request : {
+                            type : 'GET',
+                            url : `http://localhost:3000/products/id/${doc._id}`
+                        }
+                    }
+                })
+            }
             if (docs.length > 0) {
-                res.status(200).json(docs);
+                res.status(200).json(response);
             } else {
                 res.status(404).json({
                     message: "the product collection is empty"
@@ -74,7 +88,15 @@ router.get('/category/:category', (req, res, next) => {
         .then(doc => {
             console.log("from database", doc);
             if (doc) { //if there is an object with this id
-                res.status(200).json(doc);
+                res.status(200).json({
+                    products : doc,
+                    request :{
+                        type : 'GET',
+                        description : 'GoBack to get all the products',
+                        url : `http://localhost:3000/products`
+                    }
+                
+                });
             } else {
                 res.status(404).json({
                     message: 'No valid entry found for provided ID'
@@ -107,8 +129,16 @@ router.post('/', (req, res, next) => {
         .then(result => {
             console.log(result);
             res.status(201).json({
-                message: 'Handling POST request to /products',
-                createdProduct: result
+                message: 'Product Created Successfully',
+                createdProduct: {
+                    name : result.name,
+                    price : result.price,
+                    _id: result._id,
+                    request : {
+                        type:'GET',
+                        url : `http://localhost:3000/products/id/${result._id}`
+                    }
+                }
             });
         })
         .catch(err => {
@@ -128,7 +158,7 @@ router.patch('/id/:productId', (req, res, next) => {
     for (const ops of req.body){
         updateOps[ops.propName] = ops.value
     }
-    Product.update(
+    Product.updateOne(
         {
             _id: id
         },
@@ -138,8 +168,14 @@ router.patch('/id/:productId', (req, res, next) => {
         .exec()
         .then(
             result =>{
-                console.log(result);
-                res.status(200).json(result)
+                console.log(result)
+                res.status(200).json({
+                    message : 'Product updated',
+                    request : {
+                        type : 'GET',
+                        url : `http://localhost:3000/products/id/${id}`
+                    }
+                })
             }
         )
         .catch(
