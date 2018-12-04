@@ -155,7 +155,7 @@ router.patch('/id/:productId', (req, res, next) => {
 
 });
 
-router.delete('/:productId', (req, res, next) => {
+router.delete('/id/:productId', (req, res, next) => {
     const id = req.params.productId //retrieve the product id from the requests arguments Express will give an argument of the same name that we write with semicolumn 
 
     Product.remove({
