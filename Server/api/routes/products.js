@@ -121,7 +121,7 @@ router.post('/', (req, res, next) => {
 });
 
 
-router.patch('/:productId', (req, res, next) => {
+router.patch('/id/:productId', (req, res, next) => {
     const id = req.params.productId //retrieve the product id from the requests arguments Express will give an argument of the same name that we write with semicolumn 
     const updateOps = {};
 
