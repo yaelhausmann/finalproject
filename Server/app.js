@@ -11,7 +11,8 @@ const orderRoutes = require('./api/routes/orders')
 
 const urlDB =  "mongodb://localhost:27017/"
 const DBname = "ProjetFinal"
-const mongoAtlasConn = 'mongodb://ProjectManager:' + process.env.MONGO_ATLAS_PW +'@projetfinal-shard-00-00-rfh5r.mongodb.net:27017,projetfinal-shard-00-01-rfh5r.mongodb.net:27017,projetfinal-shard-00-02-rfh5r.mongodb.net:27017/test?ssl=true&replicaSet=ProjetFinal-shard-0&authSource=admin&retryWrites=true'
+const pwd = "MongoDBAtlas1509!"
+const mongoAtlasConn = `mongodb://ProjectManager:${pwd}@projetfinal-shard-00-00-rfh5r.mongodb.net:27017,projetfinal-shard-00-01-rfh5r.mongodb.net:27017,projetfinal-shard-00-02-rfh5r.mongodb.net:27017/test?ssl=true&replicaSet=ProjetFinal-shard-0&authSource=admin&retryWrites=true`
 
 // MONGO DB :  REGUAR CONNECTION
 /*mongoose.connect(`${urlDB}${DBname}`, { useNewUrlParser:true}, (err)=>{
