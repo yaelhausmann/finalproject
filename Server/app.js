@@ -13,7 +13,7 @@ const urlDB =  "mongodb://localhost:27017/"
 const DBname = "ProjetFinal"
 const pwd = "MongoDBAtlas1509!"
 const mongoAtlasConn = `mongodb://ProjectManager:MongoDBAtlas1509!@projetfinal-shard-00-00-rfh5r.mongodb.net:27017,projetfinal-shard-00-01-rfh5r.mongodb.net:27017,projetfinal-shard-00-02-rfh5r.mongodb.net:27017/test?ssl=true&replicaSet=ProjetFinal-shard-0&authSource=admin&retryWrites=true`
-
+const userRoute = require('./api/routes/users')
 // MONGO DB :  REGUAR CONNECTION
 /*mongoose.connect(`${urlDB}${DBname}`, { useNewUrlParser:true}, (err)=>{
     if (!err){
@@ -36,7 +36,7 @@ app.use(bodyParser.urlencoded({extended : false})); // parse the url middleware 
 app.use(bodyParser.json()); //extract the request in json format
 app.use('/products', productRoutes); // products Middleware => go to product API
 app.use('/orders', orderRoutes); // products Middleware => go to product API
-
+app.use('/users', userRoute);
 app.use ((req, res, next)=>{
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
