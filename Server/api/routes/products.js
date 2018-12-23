@@ -18,6 +18,7 @@ router.get('/', (req, res, next) => {
                     return {
                         name : doc.name,
                         price : doc.price,
+                        _id: doc._id,
                         category : doc.category,
                         request : {
                             type : 'GET',

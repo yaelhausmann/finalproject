@@ -6,4 +6,4 @@ const productSchema = mongoose.Schema({
     category : {type : String, required : true}
 })
 
-module.exports = mongoose.model('Product', productSchema, "products")
+module.exports = mongoose.model('Product', productSchema)
