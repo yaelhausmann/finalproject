@@ -1,5 +1,6 @@
 {
     "env" : {
-        "MONGO_ATLAS_PW" : "MongoDBAtlas1509!"
+        "MONGO_ATLAS_PW" : "MongoDBAtlas1509!",
+        "JWT_KEY":"secretKey"
     }
 }
