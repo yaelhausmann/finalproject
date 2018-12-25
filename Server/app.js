@@ -32,6 +32,7 @@ mongoose.connect(`${urlDB}${DBname}`, { useNewUrlParser:true}, (err)=>{
 // })
 mongoose.Promise = global.Promise //set the mongoose promise to the NodeJS promise in order to avoid deprecated error on mongoose Promise
 app.use(morgan('dev')); //logger middleware
+app.use('/uploads',express.static('uploads')) // make the folder static in order to be available for every user
 app.use(bodyParser.urlencoded({extended : false})); // parse the url middleware in order to extract the payloads
 app.use(bodyParser.json()); //extract the request in json format
 app.use('/products', productRoutes); // products Middleware => go to product API
