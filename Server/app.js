@@ -15,21 +15,21 @@ const pwd = "MongoDBAtlas1509!"
 const mongoAtlasConn = `mongodb://ProjectManager:MongoDBAtlas1509!@projetfinal-shard-00-00-rfh5r.mongodb.net:27017,projetfinal-shard-00-01-rfh5r.mongodb.net:27017,projetfinal-shard-00-02-rfh5r.mongodb.net:27017/test?ssl=true&replicaSet=ProjetFinal-shard-0&authSource=admin&retryWrites=true`
 const userRoute = require('./api/routes/users')
 // MONGO DB :  REGUAR CONNECTION
-/*mongoose.connect(`${urlDB}${DBname}`, { useNewUrlParser:true}, (err)=>{
-    if (!err){
-        console.log('MongoDB connected...')
-    } else {
-        console.log('erro to connect to DB', JSON.stringify(err, undefined, 2))
-    }
-})*/
-// MONGO DB : USE ATLAS
-mongoose.connect(mongoAtlasConn, { useNewUrlParser: true }, (err)=>{
+mongoose.connect(`${urlDB}${DBname}`, { useNewUrlParser:true}, (err)=>{
     if (!err){
         console.log('MongoDB connected...')
     } else {
         console.log('erro to connect to DB', JSON.stringify(err, undefined, 2))
     }
 })
+// MONGO DB : USE ATLAS
+// mongoose.connect(mongoAtlasConn, { useNewUrlParser: true }, (err)=>{
+//     if (!err){
+//         console.log('MongoDB connected...')
+//     } else {
+//         console.log('erro to connect to DB', JSON.stringify(err, undefined, 2))
+//     }
+// })
 mongoose.Promise = global.Promise //set the mongoose promise to the NodeJS promise in order to avoid deprecated error on mongoose Promise
 app.use(morgan('dev')); //logger middleware
 app.use(bodyParser.urlencoded({extended : false})); // parse the url middleware in order to extract the payloads
