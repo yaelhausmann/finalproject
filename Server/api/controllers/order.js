@@ -1,11 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
 const Order = require('../models/order');
 const Product = require('../models/products');
+const mongoose = require('mongoose');
 
-router.get('/', (req, res, next) => {
-    Order.find()
+exports.get_all = (req, res, next) => {
+    
+    Order.find({email: req.userData.email})
     .select('product quantity _id')
     .exec()
     .then(docs =>{
@@ -28,9 +27,10 @@ router.get('/', (req, res, next) => {
         res.status(500).json({error:err})
     }
         );
-});
+}
 
-router.post('/', (req, res, next) => {
+exports.create = (req, res, next) => {
+    console.log("your email is : " + req.userData.email)
     Product.findById(req.body.productId)
     .then( product =>{
         if (!product){
@@ -41,6 +41,7 @@ router.post('/', (req, res, next) => {
         }
         const order = new Order({
             _id:mongoose.Types.ObjectId(),
+            email : req.userData.email,
             quantity : req.body.quantity,
             product:req.body.productId
         });
@@ -67,9 +68,9 @@ router.post('/', (req, res, next) => {
             }
         );
    
-});
+}
 
-router.get('/:orderID', (req, res, next) => {
+exports.get_one = (req, res, next) => {
     
     Order.findById(req.params.orderID).exec()
     .then(order=>{
@@ -92,8 +93,9 @@ router.get('/:orderID', (req, res, next) => {
         });
     } );
     const id = req.params.orderID //retrieve the orderID id from the requests arguments Express will give an argument of the same name that we write with semicolumn 
-   });
-router.delete('/:productId', (req, res, next) => {
+   }
+
+   exports.delete = (req, res, next) => {
     Order.remove({_id:req.params.orderID}).exec()
     .then(result=>{
         res.status(200).json({
@@ -111,7 +113,4 @@ router.delete('/:productId', (req, res, next) => {
         }
     );
 
-});
-
-
-module.exports = router
+}

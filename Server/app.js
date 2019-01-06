@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 
 // Routes importing
 const productRoutes = require('./api/routes/products');
-const orderRoutes = require('./api/routes/orders')
+const orderRoutes = require('./api/routes/order')
 
 const urlDB =  "mongodb://localhost:27017/"
 const DBname = "ProjetFinal"
