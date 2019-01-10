@@ -12,7 +12,8 @@ exports.get_all =  (req, res, next) => {
                 count: docs.length,
                 users: docs.map(doc => {
                     return {
-                        email: doc.email
+                        email: doc.email,
+                        role : doc.role
                     }
                 })
             }
@@ -51,10 +52,13 @@ exports.create = (req, res, next) => {
                  })
              }
              else {
+                 console.log(typeof (req.body.role))
+                 let role = typeof (req.body.role) == "undefined" ? "Customer" : "Admin";
                  const user = new User({
                      _id: new mongoose.Types.ObjectId(),
                      email: req.body.email,
-                     password: hash
+                     password: hash,
+                     role: role
                  });
                  user
                  .save()
@@ -97,6 +101,7 @@ exports.get_one = (req, res, next)=>{
             if (result){
                 const token = jwt.sign({
                     email:user[0].email,
+                    
                     userID:user[0]._id
                 }, process.env.JWT_KEY, {
                     expiresIn: "1h"
@@ -106,6 +111,7 @@ exports.get_one = (req, res, next)=>{
                 return res.status(200).json({
                message: 'Auth successful',
                email: user[0].email,
+               role:user[0].role,
                token : token
                 })
             }

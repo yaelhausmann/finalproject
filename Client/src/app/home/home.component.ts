@@ -2,26 +2,29 @@
 import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 
-import { User } from '@app/_models';
-import { UserService, AuthenticationService } from '@app/_services';
+import { User, Product } from '@app/_models';
+import { UserService, AuthenticationService,ProductService } from '@app/_services';
 
 @Component({ templateUrl: 'home.component.html' })
 export class HomeComponent implements OnInit, OnDestroy {
     currentUser: User;
     currentUserSubscription: Subscription;
+    AllProducts : any;
     users: User[] = [];
 
     constructor(
         private authenticationService: AuthenticationService,
-        private userService: UserService
+        private userService: UserService,
+        private ProductService: ProductService
     ) {
         this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
             this.currentUser = user;
+   
         });
     }
 
     ngOnInit() {
-        this.loadAllUsers();
+        this.loadAllProduct();
     }
 
     ngOnDestroy() {
@@ -29,16 +32,23 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.currentUserSubscription.unsubscribe();
     }
 
-    deleteUser(id: number) {
+    deleteUser(id: string) {
         this.userService.delete(id).pipe(first()).subscribe(() => {
-            this.loadAllUsers()
+            this.loadAllProduct()
         });
     }
 
-    private loadAllUsers() {
-        this.userService.getAll().pipe(first()).subscribe(users => {
-            console.log(JSON.stringify(users))
+    // private loadAllUsers() {
+    //     this.userService.getAll().pipe(first()).subscribe(users => {
+    //         console.log(JSON.stringify(users))
             
+    //     });
+    // }
+    private loadAllProduct() {
+        this.ProductService.getAll().pipe(first()).subscribe(products => {
+            let AllProducts :any = products
+            this.AllProducts = AllProducts.products
+
         });
     }
 }
