@@ -4,6 +4,8 @@ const app = express();
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const cors = require('cors')
+
 
 // Routes importing
 const productRoutes = require('./api/routes/products');
@@ -31,6 +33,7 @@ mongoose.connect(`${urlDB}${DBname}`, { useNewUrlParser:true}, (err)=>{
 //     }
 // })
 mongoose.Promise = global.Promise //set the mongoose promise to the NodeJS promise in order to avoid deprecated error on mongoose Promise
+app.use(cors())
 app.use(morgan('dev')); //logger middleware
 app.use('/uploads',express.static('uploads')) // make the folder static in order to be available for every user
 app.use(bodyParser.urlencoded({extended : false})); // parse the url middleware in order to extract the payloads

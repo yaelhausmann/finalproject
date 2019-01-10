@@ -3,6 +3,38 @@ const User = require('../models/users')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
+exports.get_all =  (req, res, next) => {
+    User.find() //the method finc can also accept where clause
+        .select('email')
+        .exec()
+        .then(docs => {
+            const response = {
+                count: docs.length,
+                users: docs.map(doc => {
+                    return {
+                        email: doc.email
+                    }
+                })
+            }
+            if (docs.length > 0) {
+                res.status(200).json(response);
+            } else {
+                res.status(404).json({
+                    message: "No Users"
+                })
+            }
+
+        })
+        .catch(
+            err => {
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                })
+            }
+        )
+}
+
 exports.create = (req, res, next) => {
     User.find({email: req.body.email}).exec().then(user =>{
         if (user.length >= 1){
@@ -73,6 +105,7 @@ exports.get_one = (req, res, next)=>{
                 )
                 return res.status(200).json({
                message: 'Auth successful',
+               email: user[0].email,
                token : token
                 })
             }

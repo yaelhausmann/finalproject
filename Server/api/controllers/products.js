@@ -1,30 +1,6 @@
 const Product = require('../models/products');
 const mongoose = require('mongoose');
-const multer = require('multer')
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/')
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + file.originalname)
-    }
-})
-const filFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-        cb(null, true);
-    } else {
-        cb(null, false);
-    }
 
-
-}
-const upload = multer({
-    storage: storage,
-    limits: {
-        fileSize: 1024 * 1024 * 5
-    },
-    fileFilter: filFilter
-})
 exports.get_all =  (req, res, next) => {
     Product.find() //the method finc can also accept where clause
         .select('name price category productImage')
