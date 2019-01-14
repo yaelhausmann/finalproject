@@ -1,0 +1,10 @@
+﻿<h1>Hi {{currentUser.email}}!</h1>
+<p>Welcome to the super market place!</p>
+<p>Your Role : {{currentUser.role}}</p>
+<h3>Our Products:</h3>
+<ul>
+    <li *ngFor="let product of AllProducts">
+        {{product.name}} 
+        <!-- - <a (click)="deleteUser(user.email)" class="text-danger">Delete</a> -->
+    </li>
+</ul>

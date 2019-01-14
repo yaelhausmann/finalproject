@@ -118,7 +118,7 @@ router.get('/category/:category', (req, res, next) => {
 
 
 
-router.post('/', checkAuth ,(req, res, next) => {
+router.post('/', (req, res, next) => {
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
